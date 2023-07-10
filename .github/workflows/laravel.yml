@@ -31,10 +31,16 @@ jobs:
        run: |
          tag_value=$(aws ec2 describe-instances --filters "Name=tag:$AWS_TAG,Values=$AWS_TAG_VALUE" --query "Reservations[].Instances[].Tags[?Key=='$AWS_TAG'].Value" --output text)
          echo "Server Tag Value: $tag_value"
-     - name: Deploy Code
-       if: steps.get-tag.outputs.tag_value == '$AWS_TAG_VALUE'
-       run: |
-         cd /opt/laravel/ && touch sample.txt
+         
+     - name: Deploy Addval Application
+       uses: appleboy/ssh-action@v0.1.2
+       with:
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        password: ${{ secrets.SSH_PASSWORD }}
+        script: |
+          cd /opt/laravel # navigate into the folders
+          touch demo10.txt
 
      
           
