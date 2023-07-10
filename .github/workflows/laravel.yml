@@ -30,7 +30,7 @@ jobs:
        run: echo "TAG=${GITHUB_REF/refs\/tags\//}"
        
      - name: Deploy Code
-       if: steps.extract_tag.outputs.Tag == 'AWS_TAG_VALUE'
+       if: steps.extract_tag.outputs.Tag == '$AWS_TAG_VALUE'
        run: |
           cd/opt/laravel/
           touch saple.txt
