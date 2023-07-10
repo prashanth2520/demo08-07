@@ -18,12 +18,9 @@ jobs:
      - name: Setting environment variables..
        run: |
         echo "AWS_DEFAULT_REGION=ap-south-1" >> $GITHUB_ENV
-        echo "AWS_ACCESS_KEY_ID=${{ secrets.AWS_ACCESS_KEY_ID }}" >> $GITHUB_ENV
-        echo "AWS_SECRET_ACCESS_KEY=${{ secrets.AWS_SECRET_ACCESS_KEY }}" >> $GITHUB_ENV
         echo "AWS_INSTANCE_ID=${{ secrets.AWS_INSTANCE_ID }}" >> $GITHUB_ENV
         echo "AWS_IAM_ARN=${{ secrets.AWS_IAM_ARN }}" >> $GITHUB_ENV
         echo "AWS_TAG_VALUE=${{ secrets.AWS_TAG_VALUE }}" >> $GITHUB_ENV
-        echo "AWS_INSTANCE_ID=${{ secrets.AWS_INSTANCE_ID }}" >> $GITHUB_ENV
         echo "AWS_TAG=${{ secrets.AWS_TAG }}" >> $GITHUB_ENV
         
      - name: Get Server Tag Value
@@ -35,12 +32,11 @@ jobs:
      - name: Deploy Addval Application
        uses: appleboy/ssh-action@v0.1.2
        with:
-        host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
         password: ${{ secrets.SSH_PASSWORD }}
         script: |
           cd /opt/laravel # navigate into the folders
-          touch demo10.txt
+          touch demo1.txt
 
      
           
