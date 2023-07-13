@@ -27,23 +27,24 @@ jobs:
         
      - name: Retrieve tag value
        id: extract_tag
-       run: echo "TAG=${GITHUB_REF/refs\/tags\//}"
-       
-     - name: Check server tag
        run: |
-          if [[ ${{ github.ref }} == 'refs/tags/$AWS_TAG_VALUE' ]]; then
-            echo "::set-output name=deploy::true"
-          else
-            echo "::set-output name=deploy::false"
-          fi
-          id: check_tag
-
-     - name: Deploy to server
-       if: steps.check_tag.outputs.deploy == 'true'
+        TAG_VALUE=$(aws ec2 describe-instances --instance-ids $AWS_INSTANCE_ID \--query "Reservations[].Instances[].Tags[?Key=='$AWS_TAG'].Value" \--output text)
+        echo "Instance Tag Value:" $TAG_VALUE    
+        
+     - name: Compare Tag Value with Secret
+       id: compare-tag
        run: |
-        cd /opt/laravel/ && touch demo.txt
-       
-     
+         if [[ "$TAG_VALUE" == "$AWS_TAG_VALUE" ]]; then
+         echo "Tag values are the same. Running git pull command..."
+         cd /opt/laravel
+         touch sample.txt
+         else
+         echo "Tag values are different. Displaying error message..."
+         echo "Error: Tag values do not match."
+         exit 1
+         fi
+              
+          
 
      
           
