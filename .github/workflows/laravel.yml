@@ -26,24 +26,9 @@ jobs:
         echo "AWS_TAG_VALUE=code-deploy" >> $GITHUB_ENV
         
      - name: Retrieve tag value
-       id: extract_tag
        run: |
-        TAG_VALUE=$(aws ec2 describe-instances --instance-ids $AWS_INSTANCE_ID \--query "Reservations[].Instances[].Tags[?Key=='$AWS_TAG'].Value" \--output text)
-        echo "Instance Tag Value:" $TAG_VALUE   
-        echo "Secret variable:" $AWS_TAG_VALUE
-        
-     - name: Compare Tag Value with Secret
-       id: compare-tag
-       run: |
-         if [[ "$TAG_VALUE" == "$AWS_TAG_VALUE" ]]; then
-         echo "Tag values are the same. Running git pull command..."
-         cd /opt/laravel
-         touch sample.txt
-         else
-         echo "Tag values are different. Displaying error message..."
-         echo "Error: Tag values do not match."
-         exit 1
-         fi
+        echo -e '#!/bin/bash\TAG_VALUE=$(aws ec2 describe-instances --instance-ids $AWS_INSTANCE_ID \--query "Reservations[].Instances[].Tags[?Key=='$AWS_TAG'].Value" \--output text)\necho "$TAG_VALUE" == "$AWS_TAG_VALUE"\nif [ $? -eq 0 ]; then\ncd /opt/laravel && touch sample.txt\nelse\necho 'Tag value Miss match'\nfi > tag_value.sh && sh tag_value.sh
+       
      
        
         
