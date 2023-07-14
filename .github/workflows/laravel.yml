@@ -33,7 +33,7 @@ jobs:
      - name: Compare Tag Value with Secret
        id: compare-tag
        run: |
-        if [[ "$TAG_VALUE" == "$AWS_TAG_VALUE" ]]; then
+        if [[ "$TAG_VALUE" == "code-deploy" ]]; then
         echo "Tag values are the same. Running git pull command..."
         cd /opt/laravel
         touch sample.txt
