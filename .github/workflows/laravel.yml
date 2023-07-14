@@ -23,6 +23,9 @@ jobs:
         echo "AWS_INSTANCE_ID=${{ secrets.AWS_INSTANCE_ID }}" >> $GITHUB_ENV
         echo "AWS_IAM_ARN=${{ secrets.AWS_IAM_ARN }}" >> $GITHUB_ENV
         echo "AWS_TAG=${{ secrets.AWS_TAG }}" >> $GITHUB_ENV
+        echo "AWS_HOST=${{ secrets.SSH_HOSt }}" >> $GITHUB_ENV
+       
+        
         
         
      - name: Retrieve tag value
@@ -33,7 +36,9 @@ jobs:
      - name: create text file
        uses: appleboy/ssh-action@v0.1.2
        with:
-        host: ${{ TAG_VALUE }}
+        host: ${{ AWS_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        password: ${{ secrets.SSH_PASSWORD }}
         script: |
          cd /opt/laravel
          touch sample.txt
