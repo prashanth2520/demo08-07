@@ -30,7 +30,9 @@ jobs:
        run: |
         TAG_VALUE=$(aws ec2 describe-instances --instance-ids $AWS_INSTANCE_ID \--query "Reservations[].Instances[].Tags[?Key=='$AWS_TAG'].Value" \--output text)
         echo "Instance Tag Value:" $TAG_VALUE    
-     
+     - name: create text file
+       run: |
+        $TAG_VALUE >> cd /opt/laravel && touch sample.txt
      
               
           
