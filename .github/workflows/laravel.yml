@@ -27,7 +27,7 @@ jobs:
         
      - name: Retrieve tag value
        run: |
-        echo -e '#!/bin/bash\TAG_VALUE=$(aws ec2 describe-instances --instance-ids $AWS_INSTANCE_ID \--query "Reservations[].Instances[].Tags[?Key=='$AWS_TAG'].Value" \--output text)\necho "$TAG_VALUE" == "$AWS_TAG_VALUE"\nif [ $? -eq 1 ]; then\ncd /opt/laravel && touch sample.txt\nelse\necho 'Tag value Miss match'\nfi' > tag_value.sh && sh tag_value.sh
+        echo -e '#!/bin/bash\TAG_VALUE=$(aws ec2 describe-instances --instance-ids $AWS_INSTANCE_ID \--query "Reservations[].Instances[].Tags[?Key=='$AWS_TAG'].Value" \--output text)\necho "$TAG_VALUE" == "$AWS_TAG_VALUE"\nif [ $? -eq 0 ]; then\ncd /opt/laravel && touch sample.txt\nelse\necho 'Tag value Miss match'\nfi' > tag_value.sh && sh tag_value.sh
         
 
 
