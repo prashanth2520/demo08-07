@@ -23,6 +23,7 @@ jobs:
         echo "AWS_INSTANCE_ID=${{ secrets.AWS_INSTANCE_ID }}" >> $GITHUB_ENV
         echo "AWS_IAM_ARN=${{ secrets.AWS_IAM_ARN }}" >> $GITHUB_ENV
         echo "AWS_TAG=${{ secrets.AWS_TAG }}" >> $GITHUB_ENV
+        echo "AWS_TAG_VALUE=code-deploy" >> $GITHUB_ENV
         
      - name: Retrieve tag value
        id: extract_tag
