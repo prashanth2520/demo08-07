@@ -39,8 +39,8 @@ jobs:
          cd /opt/laravel
          touch sample.txt
          else
-         echo "Tag values are different. Displaying error message..."
-         echo "Error: Tag values do not match."
+         echo "Tag values not there."
+         echo "Error: Tag values not there."
          exit 1
          fi
               
